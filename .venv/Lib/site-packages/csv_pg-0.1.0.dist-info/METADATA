@@ -1,0 +1,73 @@
+Metadata-Version: 2.1
+Name: csv-pg
+Version: 0.1.0
+Summary: Import/export CSV files efficiently to/from a Postgresql database.
+Author-email: Ipamo <dev@ipamo.net>
+Project-URL: Homepage, https://github.com/ipamo/csv_pg
+Project-URL: Bug Tracker, https://github.com/ipamo/csv_pg/issues
+Keywords: csv,pg,postgres,postgresql,copy,load,loader
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7.3
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: psycopg[binary] (>=3.1.3)
+Requires-Dist: python-dotenv (>=0.21.0)
+Requires-Dist: zut (>=0.4.0)
+Provides-Extra: dev
+Requires-Dist: zut[dev] (>=0.4.0) ; extra == 'dev'
+
+csv_pg
+======
+
+A Python module to import/export CSV files efficiently to/from a Postgresql database.
+
+Key features:
+- Detect CSV file dialect automatically
+- Create target database table automatically
+- Handle localized date/time and decimal formats
+- Filter CSV file rows during import
+
+
+## Usage examples
+
+Installation:
+
+    pip install csv_pg
+
+Import CSV file `tests/samples/misc.csv` to table `misc` (recreate table if already exists):
+
+    python -m csv_pg from_csv tests/samples/misc.csv --recreate
+
+Export table `misc` to CSV file `misc.local.csv` (recreate file if already exists):
+    
+    python -m csv_pg to_csv misc.local.csv misc --recreate
+
+
+## Contributors guidelines
+
+Prepare environment:
+
+    # Debian: sudo apt install libpq-dev
+    python -m venv .venv       # Debian: python3 -m venv .venv
+    .\.venv\Scripts\activate   # Linux: source .venv/bin/activate
+    pip install .[dev]
+
+Create test database:
+
+    sudo -u postgres createdb -E UTF8 -l fr_FR.UTF8 -T template0 test_csv_pg
+
+Run tests:
+
+    python -m unittest
+
+
+## Alternatives / inspirations
+
+- [Pandas](https://apoor.medium.com/quickly-load-csvs-into-postgresql-using-python-and-pandas-9101c274a92f):
+    - Have to manually call Postgresql COPY command?
+
+- [Django Postgres Copy](https://github.com/palewire/django-postgres-copy)
+    - Depends on Django, and force import to a Django model (cannot simply load to a temporary table)
+    - No filter during import?
