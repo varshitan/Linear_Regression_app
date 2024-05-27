@@ -4,21 +4,23 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.filechooser import FileChooserController
 from kivy.uix.filechooser import FileChooserListView
 
 class MyApp(App):
     def build(self):
         box_layout = BoxLayout(orientation='vertical')
         self.file_chooser = FileChooserListView()
-        self.file_chooser.filters += (FileChooserListView.extension_filter('csv'),)
-        self.file_chooser.filters -= FileChooserListView.hidden_filter()
+        file_chooser_controller = self.file_chooser.controller
+        file_chooser_controller.filters += (FileChooserController.extension_filter('csv'),)
+        file_chooser_controller.filters -= FileChooserController.hidden_filter()
         box_layout.add_widget(self.file_chooser)
         button = Button(text='Calculate Regression')
         button.bind(on_press=self.calculate_regression)
         box_layout.add_widget(button)
         self.regression_label = Label(text='Regression equation will be shown here.')
         box_layout.add_widget(self.regression_label)
-
+      
         return box_layout
 
     def load_csv(self):
