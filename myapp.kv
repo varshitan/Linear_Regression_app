@@ -1,0 +1,11 @@
+BoxLayout:
+    orientation: 'vertical'
+    FileChooserListView:
+        id: file_chooser
+        on_selection: app.load_csv()
+    Button:
+        text: 'Calculate Regression'
+        on_press: app.calculate_regression()
+    Label:
+        id: regression_label
+        text: 'Regression equation will be shown here.'
